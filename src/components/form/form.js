@@ -4,7 +4,7 @@ import './form.scss';
 
 function Form (props){
 
-const   handleSubmit = e => {
+const  handleSubmit = e => {
     e.preventDefault();
     const formData = {
       method:'GET',
@@ -28,6 +28,7 @@ const   handleSubmit = e => {
             <span id="put">PUT</span>
             <span id="delete">DELETE</span>
           </label>
+          <textarea id="results" name="results" rows="5" cols="40"></textarea>
         </form>
       </>
     );
