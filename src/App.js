@@ -5,36 +5,95 @@ import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Form from './components/form/form';
 import Results from './components/results/results';
+import axios from 'axios';
 
-function App (){
+function App() {
 
-  const [data,setdata]=useState(null);
-  const [requestParams,setrequestParams]=useState({});
+  const [data, setdata] = useState({});
+  const [requestDiv, setrequestDiv] = useState({});
 
   const callApi = (requestParams) => {
-    // mock output
+    ///////get method//////
+    if(requestParams.method ==="get"){
+
+    axios.get(requestParams.url)
+    .then((result) => {
+ console.log(result)
     const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
+      header:result.headers,
+      count:result.data.length ,
+      response:result.data,
     };
     setdata(data);
-    setrequestParams(requestParams);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   }
+ ///////post method//////
+ if(requestParams.method ==="post"){
+  axios.post(requestParams.url,requestParams.body)
+  .then((result) => {
 
+  const data = {
+    header:result.headers,
+    count:1,
+    response:result.data,
+  };
+  setdata(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+ ///////////////////put//////////////////
+ if(requestParams.method ==="put"){
+  axios.put(requestParams.url,  requestParams.body )
+  .then((result)=>{
+
+  const formData = {
+    header:result.headers,
+    count:1 ,
+    data:result.data,
+  }
   
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {requestParams.method}</div>
-        <div>URL: {requestParams.url}</div>
-        <Form handleApiCall={callApi} />
-        <Results data={data} />
-        <Footer />
-      </React.Fragment>
-    );
+  setdata(formData);
+})
+.catch((error) => {
+  console.log(error);
+});
+}
+//////////delete method////
+
+if(requestParams.method ==="delete"){
+
+  axios.delete(requestParams.url)
+  .then((result) => {
+
+  const data = {
+    header:result.headers,
+    count:1,
+    response:result.data,
+  };
+  setdata(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+setrequestDiv(requestParams);
+
+  }
+  return (
+    <React.Fragment>
+      <Header />
+      <div>Request Method: {requestDiv.method}</div>
+      <div>URL: {requestDiv.url}</div>
+      <Form handleApiCall={callApi} />
+      <Results data={data} />
+      <Footer />
+    </React.Fragment>
+  );
 
 }
 
