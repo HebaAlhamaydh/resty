@@ -43,7 +43,7 @@ const  handleSubmit = e => {
             <span id="put"    onClick={()=>{setMethod("put");}}>PUT</span>
             <span id="delete" onClick={()=>{setMethod("delete");}}>DELETE</span>
           </label>
-          <textarea id="body" name="results" rows="5" cols="40" onInput={bodyHandler}></textarea>
+          {method==="post"|| method==="put"?<textarea id="body" name="results" rows="5" cols="40" onInput={bodyHandler}></textarea>:null}
           
         </form>
       </>
