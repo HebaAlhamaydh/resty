@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import './app.scss';
 import Header from './components/header/header';
@@ -12,12 +12,11 @@ function App() {
   const [data, setdata] = useState({});
   const [requestDiv, setrequestDiv] = useState({});
 
-  const callApi = (requestParams) => {
-    
+  useEffect(() => {
     ///////get method//////
-    if(requestParams.method ==="get"){
+    if(requestDiv.method ==="get"){
 
-    axios.get(requestParams.url)
+    axios.get(requestDiv.url)
     .then((result) => {
     const data = {
       header:result.headers,
@@ -28,12 +27,13 @@ function App() {
     })
     .catch((error) => {
       console.log(error);
+      setdata({stauts:"loading..."})
     });
   }
  ///////post method//////
- if(requestParams.method ==="post"){
-  console.log("post",requestParams.body);
-  axios.post(requestParams.url,requestParams.body)
+ if(requestDiv.method ==="post"){
+  console.log("post",requestDiv.body);
+  axios.post(requestDiv.url,requestDiv.body)
   .then((result) => {
 console.log(result);
   const data = {
@@ -45,11 +45,12 @@ console.log(result);
   })
   .catch((error) => {
     console.log(error);
+    setdata({stauts:"loading..."})
   });
 }
  ///////////////////put//////////////////
- if(requestParams.method ==="put"){
-  axios.put(requestParams.url,requestParams.body)
+ if(requestDiv.method ==="put"){
+  axios.put(requestDiv.url,requestDiv.body)
   .then((result)=>{
 
   const formData = {
@@ -62,13 +63,14 @@ console.log(result);
 })
 .catch((error) => {
   console.log(error);
+  setdata({stauts:"loading..."})
 });
 }
 //////////delete method////
 
-if(requestParams.method ==="delete"){
+if(requestDiv.method ==="delete"){
 
-  axios.delete(requestParams.url)
+  axios.delete(requestDiv.url)
   .then((result) => {
 
   const data = {
@@ -80,11 +82,18 @@ if(requestParams.method ==="delete"){
   })
   .catch((error) => {
     console.log(error);
+    setdata({stauts:"loading..."})
   });
 }
-setrequestDiv(requestParams);
+},[requestDiv]);
+const callApi = (requestParams) => {
+    
+  setrequestDiv(requestParams);
+  setdata({});
+};
 
-  }
+
+  
   return (
     <React.Fragment>
       <Header />
