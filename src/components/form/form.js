@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {useState} from 'react';
 
 import './form.scss';
 
@@ -25,6 +26,7 @@ const  handleSubmit = e => {
 
  const bodyHandler=()=>{
   const text=document.getElementById('body').value;
+  console.log(text)
   setbody(text);
  }
     return (
@@ -46,7 +48,6 @@ const  handleSubmit = e => {
         </form>
       </>
     );
-  
-}
 
+}
 export default Form;
