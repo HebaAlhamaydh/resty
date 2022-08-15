@@ -13,12 +13,12 @@ function App() {
   const [requestDiv, setrequestDiv] = useState({});
 
   const callApi = (requestParams) => {
+    
     ///////get method//////
     if(requestParams.method ==="get"){
 
     axios.get(requestParams.url)
     .then((result) => {
- console.log(result)
     const data = {
       header:result.headers,
       count:result.data.length ,
@@ -32,9 +32,10 @@ function App() {
   }
  ///////post method//////
  if(requestParams.method ==="post"){
+  console.log("post",requestParams.body);
   axios.post(requestParams.url,requestParams.body)
   .then((result) => {
-
+console.log(result);
   const data = {
     header:result.headers,
     count:1,
@@ -48,7 +49,7 @@ function App() {
 }
  ///////////////////put//////////////////
  if(requestParams.method ==="put"){
-  axios.put(requestParams.url,  requestParams.body )
+  axios.put(requestParams.url,requestParams.body)
   .then((result)=>{
 
   const formData = {
