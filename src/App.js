@@ -19,7 +19,7 @@ function App() {
   const [data, setdata] = useState({});
   const [requestDiv, setrequestDiv] = useState({});
   const [state, dispatch] = useReducer(historyReducer, initialState)
-  const [show, setShow] = useState(false)
+  const [showHistory, setShow] = useState(false)
 
 
 
@@ -34,17 +34,14 @@ function App() {
             header: result.headers,
             response: result.data,
           };
-
-          // console.log(".,,,,,,,,,,,,,,,,",data)
+          console.log("aaaaaa111", result)
           let send = {
             requestDiv: requestDiv,
             data: [data]
           };
-         
+
           dispatch(addHistory(send))
           setdata(data);
-
-
 
         })
         .catch((error) => {
@@ -63,7 +60,11 @@ function App() {
             count: 1,
             response: result.data,
           };
-          dispatch(addHistory(requestDiv))
+          let send = {
+            requestDiv: requestDiv,
+            data: [data]
+          };
+          dispatch(addHistory(send))
           setdata(data);
         })
         .catch((error) => {
@@ -81,7 +82,11 @@ function App() {
             count: 1,
             data: result.data,
           }
-          dispatch(addHistory(requestDiv))
+          let send = {
+            requestDiv: requestDiv,
+            data: [data]
+          };
+          dispatch(addHistory(send))
           setdata(formData);
         })
         .catch((error) => {
@@ -101,7 +106,11 @@ function App() {
             count: 1,
             response: result.data,
           };
-          dispatch(addHistory(requestDiv))
+          let send = {
+            requestDiv: requestDiv,
+            data: [data]
+          };
+          dispatch(addHistory(send))
           setdata(data);
         })
         .catch((error) => {
@@ -109,61 +118,53 @@ function App() {
           setdata({ stauts: "loading..." })
         });
     }
+    // eslint-disable-next-line
   }, [requestDiv]);
 
   const callApi = (requestParams) => {
 
     setrequestDiv(requestParams);
-    // setdata({});
   };
-
 
   // useEffect(() => {
   //   callApi(requestDiv);
   //    // eslint-disable-next-line
   // }, [requestDiv])
 
-
   return (
     <React.Fragment>
       <Header />
-      <div>Request Method: {requestDiv.method}</div>
-      <div>URL: {requestDiv.url}</div>
+      <div><b>Request Method: </b>{requestDiv.method}</div>
+      <div><b>URL: </b>{requestDiv.url}</div>
       <pre >
-      <button  onClick={()=>setShow(true)}>show History</button>{'  '}
-      <button  onClick={()=>setShow(false)}>Hide History</button>{'  '}
-      <button  onClick={() => dispatch(emptyHistory())}>Clear History</button>
+        <button onClick={() => setShow(true)}>show History</button>{'  '}
+        <button onClick={() => setShow(false)}>Hide History</button>{'  '}
+        <button onClick={() => dispatch(emptyHistory())}>Clear History</button>
       </pre >
-      {show &&
+      {showHistory &&
         <>
           {
             state.history.map((e, i) => {
-            
+              console.log("\\\\\\\\\\\\\\\\\\\\\\\\", e.data);
               return (
- 
                 <section >
                   <h1 >History</h1>
-                <div key={i}>
-                  <p>{e.requestDiv.method}</p>
-                  <p> {e.requestDiv.url}</p>
-                
-            
-                  {e.data.map((event) => {
-    
-                    return (
-                      // <section>{event? JSON.stringify(event) : "null"}</section>
-                      <section id="history"> <JSONPretty id='json-pretty' data={event} /></section>
-                      
-                    )
+                  <div key={i}>
+                    <p><b>Request Method:</b>{e.requestDiv.method}</p>
+                    <p><b>URL:</b>{e.requestDiv.url}</p>
 
-                  })}
-                </div>
+                    {e.data.map((event) => {
+                      console.log("hhhhhhhhhhhhhhhh", event)
+                      return (
+                        <section id="history"> <JSONPretty id='json-pretty' data={event} /></section>
+                      )
+                    })}
+                  </div>
                 </section>
               )
             })
           }
-
-        </> 
+        </>
       }
       <Form handleApiCall={callApi} />
       <Results data={data} />
